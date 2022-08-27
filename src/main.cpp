@@ -12,7 +12,7 @@ ESP32QRCodeReader reader(CAMERA_MODEL_AI_THINKER);
 // server
 String ssid;
 String password;
-const char *server = "https://noq.ddns.net";
+const char *server = "https://noq.ddns.net/includes/qrquing.inc.php";
 HTTPClient http;
 const int port = 443;
 bool connected = false;
@@ -56,9 +56,8 @@ void onQrCodeTask()
         Serial.println("Payload is :");
         Serial.println((const char *)qrCodeData.payload);
         String qrData = (const char *)qrCodeData.payload;
-        // std::string qrDataS = qrData.c_str();
+        std::string qrDataS = qrData.c_str();
 
-        /*
         if (!connected)
         {
           Serial.println(qrData);
@@ -85,16 +84,7 @@ void onQrCodeTask()
           Serial.print("Connected!\n");
           connected = true;
         }
-        */
 
-        http.begin(server);
-        http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-        http.addHeader("Content-Length", "100");
-        int result = http.POST("companies=y&services=one&uId=145");
-        Serial.println("Resultt " + (String)result);
-        Serial.println("Poruka: " + http.getString());
-
-        /*
         String cn{""};
         String s{""};
         String u{""};
@@ -125,10 +115,15 @@ void onQrCodeTask()
           Serial.println(service);
           Serial.print("U is: ");
           Serial.println(u);
-
-          // Serial.println("Resultt " + (String)wut);
+          String body = "companies=" + company + "&services=" + service + "&uId=" + u;
+          int length = body.length();
+          http.begin(server);
+          http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+          http.addHeader("Content-Length", (String)length);
+          int result = http.POST(body);
+          Serial.println("Result " + (String)result);
+          Serial.println("Message : " + http.getString());
         }
-          */
       }
       else
       {
@@ -151,7 +146,9 @@ void setup()
   reader.beginOnCore(1);
 
   Serial.println("Begin on Core 1");
+  Serial.println("Get wifi connection...");
 
+/*
   ssid = "Innbox-internet-e5a130";
   password = "INNBOX3138267000098";
   WiFi.mode(WIFI_STA); // The WiFi is in station mode. The    other is the softAP mode
@@ -167,7 +164,7 @@ void setup()
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
   delay(2000);
-
+*/
   /*
   http.begin(server);
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
