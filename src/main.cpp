@@ -18,10 +18,6 @@ HTTPClient http;
 const int port = 443;
 bool connected = false;
 
-bool wifiConnectionFlag = false;
-bool companyAndServiceFlag = false;
-bool queueUpFlag = false;
-
 /*
   Tries to find info at a very specific location of the string
 */
@@ -159,7 +155,7 @@ void loop()
     digitalWrite(4, LOW);
     break;
   case 2:
-    Serial.println("COMPANY AND SERVICE SELECTED");
+    Serial.println("COMPANY AND SERVICE SELECTED!");
     digitalWrite(4, HIGH);
     delay(2000);
     digitalWrite(4, LOW);
