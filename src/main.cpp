@@ -15,7 +15,6 @@ String ssid;
 String password;
 const char *server = "https://noq.ddns.net/includes/qrquing.inc.php";
 HTTPClient http;
-const int port = 443;
 bool connected = false;
 
 /*
